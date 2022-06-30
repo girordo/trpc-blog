@@ -1,4 +1,4 @@
-import { router } from "@trpc/server";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { CreateUserInput } from "../schema/user.schema";
@@ -6,6 +6,7 @@ import { trpc } from "../utils/trpc";
 
 function RegisterPage() {
   const { handleSubmit, register } = useForm<CreateUserInput>();
+  const router = useRouter();
 
   const { mutate, error } = trpc.useMutation(["usersregister-user"], {
     onError: (error) => {},
@@ -21,6 +22,7 @@ function RegisterPage() {
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
+        {error && error.message}
         <h1>Register</h1>
         <input
           type="email"
